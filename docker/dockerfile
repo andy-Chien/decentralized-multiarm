@@ -1,0 +1,56 @@
+# FROM nvidia/cuda:11.3.0-runtime-ubuntu20.04
+FROM nvidia/cuda:11.1-runtime-ubuntu20.04
+
+# Copyright (c) 2020, NVIDIA CORPORATION. All rights reserved.
+# Full license terms provided in LICENSE.md file.
+# To build:
+# docker build -t nvidia-dope:noetic-v1 -f Dockerfile.noetic ..
+
+ENV HOME /root
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN sed -i s:/archive.ubuntu.com:/free.nchc.org.tw/ubuntu:g /etc/apt/sources.list
+
+# install python
+RUN apt-get update && apt-get upgrade -y && apt-get clean \
+    && apt-get install -y --no-install-recommends software-properties-common \
+    && add-apt-repository ppa:deadsnakes/ppa \
+    && apt-get purge -y python.* \
+    && apt-get install -y --no-install-recommends python3.7 \
+    && apt-get -y autoremove \
+    && apt-get clean \
+    && update-alternatives --install /usr/bin/python python /usr/bin/python3.7 1 \
+    && update-alternatives --set python /usr/bin/python3.7
+
+# Install system and development components
+RUN apt-get update && apt-get -y --no-install-recommends install \
+    apt-utils \
+    curl \
+    wget \
+    xz-utils \
+    python3.7-tk \
+    && apt-get -y autoremove \
+    && apt-get clean
+
+# install pip
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+RUN python get-pip.py
+# pip install required Python packages
+RUN pip install torch==1.8.1+cu111 torchvision==0.9.1+cu111 torchaudio==0.8.1 -f https://download.pytorch.org/whl/torch_stable.html
+COPY requirements.txt ${HOME}
+RUN python -m pip install --no-cache-dir -r ${HOME}/requirements.txt
+RUN rm ${HOME}/requirements.txt
+
+# Setup catkin workspace
+ENV CATKIN_WS ${HOME}/catkin_ws
+COPY . ${CATKIN_WS}/src/decentralized-multiarm
+# COPY docker/init_workspace.sh ${HOME}
+# RUN ${CATKIN_WS}/src/dope/docker/init_workspace.sh
+# RUN echo "source ${CATKIN_WS}/devel/setup.bash" >> ${HOME}/.bashrc
+
+# ENV DISPLAY :0
+# ENV NVIDIA_VISIBLE_DEVICES all
+# ENV NVIDIA_DRIVER_CAPABILITIES graphics,utility,compute
+ENV TERM=xterm
+# Some QT-Apps don't show controls without this
+# ENV QT_X11_NO_MITSHM 1

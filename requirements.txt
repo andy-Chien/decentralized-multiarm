@@ -1,0 +1,15 @@
+matplotlib
+numpy
+seaborn
+tqdm
+numba
+gym
+numpy-quaternion
+ray
+tensorboardx
+pybullet
+transforms3d
+trimesh
+PySimpleGUI
+urdfpy
+pyquaternion

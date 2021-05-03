@@ -285,7 +285,7 @@ if __name__ == "__main__":
     video_dir = 'videos' + '_' + timestr
     result_dir = 'results' + '_' + timestr
     recorder_dir = 'simulation' + '_' + timestr
-    record_video = False
+    record_video = True
     load = True
     if not os.path.exists(video_dir) and record_video:
         os.makedirs(video_dir)
@@ -293,7 +293,7 @@ if __name__ == "__main__":
         os.makedirs(result_dir)
     if not os.path.exists(recorder_dir):
         os.makedirs(recorder_dir)
-    num_exps = 500
+    num_exps = 10
     ray.init(logging_level=ray.logging.FATAL,
              log_to_driver=False)
     tasks = [demo_with_seed.remote(
