@@ -5,7 +5,7 @@ tqdm
 numba
 gym
 numpy-quaternion
-ray
+ray==1.0.0
 tensorboardx
 pybullet
 transforms3d

@@ -1,5 +1,7 @@
 # FROM nvidia/cuda:11.3.0-runtime-ubuntu20.04
-FROM nvidia/cuda:11.1-runtime-ubuntu20.04
+# FROM nvidia/cuda:11.1-runtime-ubuntu20.04
+# FROM nvidia/cuda:10.2-runtime-ubuntu18.04
+FROM nvidia/cudagl:10.2-runtime-ubuntu18.04
 
 # Copyright (c) 2020, NVIDIA CORPORATION. All rights reserved.
 # Full license terms provided in LICENSE.md file.
@@ -36,7 +38,8 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 RUN python get-pip.py
 # pip install required Python packages
-RUN pip install torch==1.8.1+cu111 torchvision==0.9.1+cu111 torchaudio==0.8.1 -f https://download.pytorch.org/whl/torch_stable.html
+# RUN pip install torch==1.8.1+cu111 torchvision==0.9.1+cu111 torchaudio==0.8.1 -f https://download.pytorch.org/whl/torch_stable.html
+RUN pip install torch==1.6.0 torchvision==0.7.0
 COPY requirements.txt ${HOME}
 RUN python -m pip install --no-cache-dir -r ${HOME}/requirements.txt
 RUN rm ${HOME}/requirements.txt
