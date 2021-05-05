@@ -1,13 +1,22 @@
 benchmark/
 ours/
+tasks/
+expert/
+demo/tasks/**
+demo/results*/**
+demo/video*/**
+
 
 .vscode/
 .vim/
 tags
 *.swp
+*.p
 
 *.csv
 *.pkl
+*.npy
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

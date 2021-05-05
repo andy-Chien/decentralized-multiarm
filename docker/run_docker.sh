@@ -33,7 +33,7 @@ DCMA_ID=`docker ps -aqf "name=^/${CONTAINER_NAME}$"`
 if [ -z "${DCMA_ID}" ]; then
     echo "Creating new DOPE docker container."
     xhost +local:root
-    docker run --gpus all  -it --privileged --network=host -v ${HOST_DIR}:${CONTAINER_DIR}:rw -v /tmp/.X11-unix:/tmp/.X11-unix:rw --env="DISPLAY" --name=${CONTAINER_NAME} ${IMAGE_NAME} bash
+    docker run --gpus all  -it --shm-size=4096m --privileged --network=host -v ${HOST_DIR}:${CONTAINER_DIR}:rw -v /tmp/.X11-unix:/tmp/.X11-unix:rw --env="DISPLAY" --name=${CONTAINER_NAME} ${IMAGE_NAME} bash
 else
     echo "Found DOPE docker container: ${DCMA_ID}."
     # Check if the container is already running and start if necessary.
