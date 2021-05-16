@@ -5,6 +5,7 @@ expert/
 demo/tasks/**
 demo/results*/**
 demo/video*/**
+runs/
 
 
 .vscode/
